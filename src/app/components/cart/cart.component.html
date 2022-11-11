@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="mt-5">
+    <div class="row">
+        <div class="col-md-7 d-flex mt-2">
+          <div class="row">
+            <div class="col-md-12 d-flex" *ngFor="let item of cartStorage">
+              <i (click)="removeProduct(item.item.id)" class="float fa-regular fa-rectangle-xmark"></i>
+              <div>
+                <img class="mt-2" [src]="item.item.url" alt="">
+              </div>
+              <div class="mt-3 ms-5">
+                <h2>{{item.item.name}}</h2>
+                <p>{{item.item.price|currency}}</p>
+                <div class="d-flex mb-3">
+                  <p>Amount:  </p>
+                  <input (change)="totalChanged(+Quant.value,item.item.id)" #Quant type="number" class="form-control ms-3 w-25"
+                  [value]="item.Quantity">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <form (ngSubmit)="submit()">
+            <Label><strong>Full Name</strong></Label>
+            <input #personName="ngModel" [(ngModel)]="theName" name="pName" type="text" class="form-control" placeholder="(Minimum 3 charecters)" required="" minlength="3">
+
+            <div class="mt-3 mb-3" [hidden]="personName.untouched">
+              <div [hidden]="personName.valid">
+                <small class="alert alert-danger"
+                [hidden]="personName.errors?.['pattern']">Lenght Must Be At Least 3 Charachters</small>
+              </div>
+            </div>
+            <Label><strong>Address</strong></Label>
+            <input #personAddress="ngModel" [(ngModel)]="theAddress" name="pAddress" type="text" class="form-control" placeholder="(Minimum 6 charecters)" minlength="6">
+            <div class="mt-3 mb-3" [hidden]="personAddress.valid||personAddress.untouched">
+              <small class="alert alert-danger"
+                [hidden]="personAddress.errors?.['pattern']">Address Must Be At Least 6 charecters</small>
+            </div>
+            <Label><strong>Credit Card Number</strong></Label>
+            <input #personCredit="ngModel" [(ngModel)]="theCredit" name="pCredit" type="number" minlength="16"  class="form-control" pattern="^[0-9]{16}$"  placeholder="(16-degit number)">
+
+            <div class="mt-3 mb-3" [hidden]="personCredit.valid||personCredit.untouched">
+                <small class="alert alert-danger"
+                >Credit Number Must Be 16 number</small>
+
+            </div>
+            <p style="font-size:13px ;">We Will Not Share Your Payment Details With Anyone Else</p>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+        <h1 class="mt-4">Total : {{totalAmount|currency}}</h1>
+    </div>
+  </div>
+</div>
